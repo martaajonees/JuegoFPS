@@ -87,4 +87,24 @@ public class playerActions : MonoBehaviour, IDamage
         }
         
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        IBox box = other.GetComponent<IBox>();
+        if(box!=null)
+        {
+            int res = box.OpenBox();
+            if(box.getID()==(int)BoxID.HEALTH)
+            {
+                life += res;
+                CanvasController.instance.AddTextHp(life);
+            }
+            else if (box.getID()==(int)BoxID.AMMO)
+            {
+                ammo+=res;
+                CanvasController.instance.AddTextAmmo(ammo);
+            }
+            Destroy(other.gameObject);
+        }
+    }
 }
