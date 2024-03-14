@@ -5363,6 +5363,7 @@ MonoBehaviour:
   txtTotalEnemiesKilled: {fileID: 1416988295}
   totalKills: 0
   enemyContainer: {fileID: 129275746}
+  txtTimer: {fileID: 2082924218}
 --- !u!4 &261365232
 Transform:
   m_ObjectHideFlags: 0

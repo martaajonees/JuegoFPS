@@ -73,6 +73,11 @@ public class playerActions : MonoBehaviour, IDamage
         damageEffect.SetActive(true);
         yield return wait;
         damageEffect.SetActive(false);
+
+        if(life <= 0)
+        {
+            GameManager.instance.FinGame(false);
+        }
         
     }
 }

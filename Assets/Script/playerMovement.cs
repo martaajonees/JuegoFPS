@@ -28,6 +28,7 @@ public class playerMovement : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         jumpValue = Mathf.Sqrt(jumpForce * -2f * gravity);
     }
     void Update()
