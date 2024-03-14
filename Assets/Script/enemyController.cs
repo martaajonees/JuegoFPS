@@ -20,10 +20,14 @@ public class enemyController : MonoBehaviour, IDamage
     public float chaseInterval = 2f;
     float chaseTime;
 
+    public ParticleSystem particle;
+    WaitForSeconds wait;
+
     void Start() {
         agent = GetComponent<NavMeshAgent>();
         shootTime = shootInterval;
         chaseTime = chaseInterval;
+        wait = new WaitForSeconds(particle.main.duration);
     }
 
     public bool DoDamage(int vld, bool isPlayer)
@@ -32,14 +36,18 @@ public class enemyController : MonoBehaviour, IDamage
         if(isPlayer == true){
             life -= vld;
             if(life <= 0){
-                Die();
+                StartCoroutine(Die());
             }
             return true;
         }
         return false;
     }
 
-    void Die() {
+    IEnumerator Die()
+    {
+        particle.Play();
+        yield return wait;
+        GameManager.instance.AddEnemyKilled();
         Destroy(gameObject);
     }
 
@@ -77,7 +85,7 @@ public class enemyController : MonoBehaviour, IDamage
             if(distanceToTarget > distanceToChase)
             {
                 agent.SetDestination(target.position);
-                agent.stoppingDistance = distanceToChase;
+                agent.stoppingDistance = 5f;
                 chaseTime = chaseInterval;
             }
         }
