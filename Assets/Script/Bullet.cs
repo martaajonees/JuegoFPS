@@ -9,6 +9,10 @@ public class Bullet : MonoBehaviour
     public float lifeDuration = 2f;
     float lifeTimer;
 
+    public int ataque = 10;
+
+    public bool shotByPlayer;
+
     private void OnEnable()
     {
         lifeTimer = lifeDuration;
@@ -26,5 +30,17 @@ public class Bullet : MonoBehaviour
     private void FixedUpdate()
     {
         transform.position += transform.forward * speed * Time.fixedDeltaTime;
+    }
+
+    private void OnTriggerEnter(Collider other) {
+
+        Debug.Log("Bullet choca con " + other.name);
+        bool remove = true;
+        IDamage damage = other.GetComponent<IDamage>();
+        if(damage != null)
+        {
+           remove = damage.DoDamage(ataque, shotByPlayer);
+        }
+        if(remove == true) gameObject.SetActive(false);
     }
 }

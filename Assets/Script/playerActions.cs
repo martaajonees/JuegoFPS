@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerActions : MonoBehaviour
+public class playerActions : MonoBehaviour, IDamage
 {
     public Transform postGun;
     public Transform cam;
     public GameObject bulletPrefab;
     public LayerMask ignoreLayer;
     RaycastHit hit;
+
+    public int life = 20;
 
     private void Update()
     {
@@ -23,7 +25,7 @@ public class playerActions : MonoBehaviour
 
             //GameObject bulletobj = Instantiate(bulletPrefab);
 
-            GameObject bulletobj = ObjectPollingManager.instance.GetBullet();
+            GameObject bulletobj = ObjectPollingManager.instance.GetBullet(true);
 
             bulletobj.transform.position = postGun.position;
             if(Physics.Raycast(cam.position, direction, out hit, Mathf.Infinity, ~ignoreLayer))
@@ -36,5 +38,15 @@ public class playerActions : MonoBehaviour
                 bulletobj.transform.LookAt(dir);
             }
         }
+    }
+
+    public bool DoDamage(int vld, bool isPlayer)
+    {
+        Debug.Log("Player recibe " + vld + " de daño " + isPlayer);
+        if(isPlayer == true){
+            return false;
+        }
+        life -= vld;
+        return true;
     }
 }
