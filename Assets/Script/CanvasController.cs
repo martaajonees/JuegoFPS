@@ -16,11 +16,11 @@ public class CanvasController : MonoBehaviour
 
     public void AddTextHp(int vld)
     {
-        txtHp.text = "HP: " + vld.ToString();
+        txtHp.text = "Vida: " + vld.ToString();
     }
 
     public void AddTextAmmo(int vld)
     {
-        txtAmmo.text = "Ammo: " + vld.ToString();
+        txtAmmo.text = "Munición: " + vld.ToString();
     }
 }
