@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class playerActions : MonoBehaviour, IDamage
 {
@@ -11,6 +12,7 @@ public class playerActions : MonoBehaviour, IDamage
     RaycastHit hit;
 
     public int life = 20;
+    public int ammo = 10;
 
     public GameObject damageEffect;
     public float saveInterval = 0.5f;
@@ -21,6 +23,8 @@ public class playerActions : MonoBehaviour, IDamage
     {
         damageEffect.SetActive(false);
         saveTime = 0.0f;
+        CanvasController.instance.AddTextHp(life);
+        CanvasController.instance.AddTextAmmo(ammo);
         wait = new WaitForSeconds(0.2f);
     }
 
@@ -29,7 +33,7 @@ public class playerActions : MonoBehaviour, IDamage
         Debug.DrawRay(cam.position, cam.forward *100f, Color.red);
         Debug.DrawRay(postGun.position, cam.forward *100f, Color.blue);
 
-        if(Input.GetMouseButtonDown(0))
+        if(ammo > 0 && Input.GetMouseButtonDown(0))
         {
             //Vector3 direction = cam.TransformDirection(new UnityEngine.Vector3(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f), 1));
             Vector3 direction = cam.TransformDirection(new Vector3(0,0,1));
@@ -49,6 +53,8 @@ public class playerActions : MonoBehaviour, IDamage
                 Vector3 dir = cam.position + direction*10f;
                 bulletobj.transform.LookAt(dir);
             }
+            ammo--;
+            CanvasController.instance.AddTextAmmo(ammo);
         }
         saveTime -= Time.deltaTime;
     }
@@ -61,6 +67,7 @@ public class playerActions : MonoBehaviour, IDamage
         } else {
             if(saveTime <= 0){
                 life -= vld;
+                CanvasController.instance.AddTextHp(life);
                 StartCoroutine(Effect());
             }
         }
